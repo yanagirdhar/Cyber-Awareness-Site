@@ -50,6 +50,13 @@ body {
 .film { width: 100vw; aspect-ratio: 16 / 9; transform-origin: 50% 50%; }  /* full screen width; zoom aims at the middle */
 .film video { display: block; width: 100%; height: 100%; object-fit: cover; }
 .film.zoom { transform: scale(18); transition: transform .35s cubic-bezier(.7, 0, 1, .5); }  /* quick zap-zoom; keep ZOOM_MS in sync */
+.film { will-change: transform; backface-visibility: hidden; }  /* keeps the zoom on the GPU = smooth on phones */
+
+/* Phones held upright: fill the full screen HEIGHT; the sides of the video are cropped equally, zoom stays centred */
+@media (max-width: 768px) and (orientation: portrait) {
+  #intro { grid-template-columns: 100%; }
+  .film { width: auto; height: 100dvh; justify-self: center; }
+}
 .flash { position: fixed; inset: 0; z-index: 50; pointer-events: none; opacity: 0; transition: opacity .2s;
   background: radial-gradient(circle at 50% 50%, #fff, var(--silver) 60%, var(--silver-dark)); }
 .flash.on { opacity: 1; }
