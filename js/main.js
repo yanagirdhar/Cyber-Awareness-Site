@@ -1,6 +1,6 @@
 // ===== Settings (edit here) =====
 const STORAGE_KEY = 'safetyChecklist';   // session memory key
-const ZOOM_MS = 2400;                    // keep in sync with .film.zoom in style.css
+const ZOOM_MS = 350;                     // keep in sync with .film.zoom in style.css
 const VERDICTS = [                       // highest score first; first match wins
   { min: 9, text: 'Secure' },
   { min: 7, text: 'Mostly secure' },
@@ -45,31 +45,33 @@ function openScroll() {
   later(() => scroll.classList.add('open'), 400);
 }
 
-// ===== 1. Intro: starts straight away, with sound =====
+// ===== 1. Intro: starts straight away, always with sound =====
 function startIntro() {
   show('intro');
   film.classList.remove('zoom');
   hint.hidden = true;
   video.currentTime = 0;
-  video.muted = false;
+  video.muted = false;                    // sound is always on
   video.play().catch(() => {
-    // Browser blocked sound autoplay: play silently, unmute on the first click/key
-    video.muted = true;
+    // Browser blocked autoplay with sound: wait (paused) for the first click/key, never play silently
+    video.pause();
     hint.hidden = false;
-    video.play().catch(() => {});
   });
 }
 
 function zoomIntoLock() {
   film.classList.add('zoom');
-  later(() => flash.classList.add('on'), ZOOM_MS - 800);
+  later(() => flash.classList.add('on'), ZOOM_MS - 200);
   later(() => show('checklist'), ZOOM_MS);
 }
 
-function unmute() {
-  if (video.muted && state.stage === 'intro') { video.muted = false; hint.hidden = true; }
+function playWithSound() {
+  if (state.stage === 'intro' && video.paused && !video.ended) {
+    video.muted = false;
+    video.play().then(() => { hint.hidden = true; }).catch(() => {});
+  }
 }
-['pointerdown', 'keydown'].forEach((e) => document.addEventListener(e, unmute));
+['pointerdown', 'keydown'].forEach((e) => document.addEventListener(e, playWithSound));
 
 video.addEventListener('ended', () => { if (state.stage === 'intro') zoomIntoLock(); });
 video.addEventListener('error', () => { if (state.stage === 'intro') show('checklist'); });
