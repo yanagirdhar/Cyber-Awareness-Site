@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Safety Checklist</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- PAGE 1: INTRO (video with sound, then zoom into the broken lock) -->
+  <section id="intro" class="stage active">
+    <div class="film" id="film">
+      <video id="video" src="assets/scroll-film.mp4" playsinline preload="auto"></video>
+    </div>
+    <button id="skip" class="btn small corner right">Skip intro</button>
+    <!-- Only shown if the browser blocks sound autoplay; any click or key turns sound on -->
+    <p class="hint" id="sound-hint" hidden>Tap anywhere for sound</p>
+  </section>
+
+  <!-- PAGE 2: CHECKLIST (silver scroll opens) -->
+  <section id="checklist" class="stage">
+    <button id="replay" class="btn small corner left">View intro animation</button>
+    <div class="scroll" id="scroll">
+      <div class="roller top"><h1 class="title">The Safety Checklist</h1></div>
+      <div class="scroll-body">
+        <div class="scroll-inner">
+          <h2>Never have I ever…</h2>
+          <ul class="items" id="items">
+            <li><label><input type="checkbox"><span>Used the same password everywhere.</span></label></li>
+            <li><label><input type="checkbox"><span>Skipped 2-step verification.</span></label></li>
+            <li><label><input type="checkbox"><span>Clicked a sus link.</span></label></li>
+            <li><label><input type="checkbox"><span>Shared my OTP.</span></label></li>
+            <li><label><input type="checkbox"><span>Ignored app updates.</span></label></li>
+            <li><label><input type="checkbox"><span>Forgotten to log out.</span></label></li>
+            <li><label><input type="checkbox"><span>Used public Wi-Fi for payments.</span></label></li>
+            <li><label><input type="checkbox"><span>Allowed random app permissions.</span></label></li>
+            <li><label><input type="checkbox"><span>Overshared personal info online.</span></label></li>
+            <li><label><input type="checkbox"><span>Panicked after getting hacked.</span></label></li>
+          </ul>
+          <button id="show-results" class="btn dark">How bad is my digital security?</button>
+        </div>
+      </div>
+      <div class="roller bottom"></div>
+    </div>
+  </section>
+
+  <!-- PAGE 3: RESULTS (filled in by js/main.js) -->
+  <section id="results" class="stage">
+    <div class="results">
+      <h1 class="title silver">The Safety Checklist</h1>
+      <p class="score">You got <span id="score">0</span>/10!</p>
+      <p>Your digital presence is:</p>
+      <p class="verdict silver" id="verdict"></p>
+      <ul class="review" id="review"></ul>
+      <div class="links">
+        <a class="btn" href="toolkit.html">Take a look at The Security Toolkit</a>
+        <a class="btn" href="first-aid.html">Take a look at The Digital First-Aid Kit</a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <a href="index.html#intro" data-stage="intro">Home</a>
+    <a href="index.html#checklist" data-stage="checklist">The Safety Checklist</a>
+    <a href="toolkit.html">The Security Toolkit</a>
+    <a href="first-aid.html">The Digital First-Aid Kit</a>
+  </footer>
+
+  <div id="flash" class="flash"></div>
+  <script src="js/main.js"></script>
+</body>
+</html>
